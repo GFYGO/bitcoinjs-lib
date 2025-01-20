@@ -1,0 +1,27 @@
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches:
+      - main  # 或者你想要触发构建的其他分支
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'  # 根据需要选择 Node.js 版本
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Publish to Cloudflare Workers
+      env:
+        CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      run: npx wrangler publish
